@@ -13,7 +13,7 @@ import com.github.nothiaki.trtl3_core.service.BucketService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/bucket")
+@RequestMapping("/buckets")
 public class BucketsController {
 
   private final BucketService bucketService;
@@ -23,10 +23,9 @@ public class BucketsController {
   }
 
   @PostMapping
-  public ResponseEntity<?> createBucket(@RequestBody @Valid RequestCreateBucketDto requestCreateBucketDto) {
-    return bucketService.createBucket(requestCreateBucketDto) ?
-      ResponseEntity.status(HttpStatus.CREATED).build() :
-      ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+  public ResponseEntity<Void> createBucket(@RequestBody @Valid RequestCreateBucketDto requestCreateBucketDto) {
+    bucketService.createBucket(requestCreateBucketDto.bucketName());
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
 }
