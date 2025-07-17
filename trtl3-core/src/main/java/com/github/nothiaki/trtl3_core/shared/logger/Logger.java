@@ -1,4 +1,4 @@
-package com.github.nothiaki.trtl3_core.logger;
+package com.github.nothiaki.trtl3_core.shared.logger;
 
 public interface Logger {
 

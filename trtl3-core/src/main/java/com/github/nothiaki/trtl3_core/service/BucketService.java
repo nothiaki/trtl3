@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.github.nothiaki.trtl3_core.exceptions.AbsentBucketsException;
-import com.github.nothiaki.trtl3_core.exceptions.InternalErrorException;
-import com.github.nothiaki.trtl3_core.logger.Logger;
+import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentBucketsException;
+import com.github.nothiaki.trtl3_core.shared.exceptions.InternalErrorException;
+import com.github.nothiaki.trtl3_core.shared.logger.Logger;
 
 @Service
 public class BucketService {

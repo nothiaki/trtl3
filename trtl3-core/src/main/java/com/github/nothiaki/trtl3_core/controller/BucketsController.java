@@ -1,5 +1,7 @@
 package com.github.nothiaki.trtl3_core.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +32,9 @@ public class BucketsController {
   }
 
   @GetMapping
-  public ResponseEntity<?> findBuckets() {
-    bucketService.findBuckets();
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+  public ResponseEntity<List<String>> findBuckets() {
+    List<String> bucketsNames = bucketService.findBuckets();
+    return ResponseEntity.status(HttpStatus.OK).body(bucketsNames);
   }
 
 }

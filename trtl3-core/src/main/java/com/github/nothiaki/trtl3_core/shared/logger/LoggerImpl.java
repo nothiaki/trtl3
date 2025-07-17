@@ -1,4 +1,4 @@
-package com.github.nothiaki.trtl3_core.logger;
+package com.github.nothiaki.trtl3_core.shared.logger;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
