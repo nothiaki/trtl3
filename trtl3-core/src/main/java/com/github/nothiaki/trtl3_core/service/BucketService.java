@@ -8,25 +8,36 @@ import org.springframework.stereotype.Service;
 
 import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentBucketsException;
 import com.github.nothiaki.trtl3_core.shared.exceptions.InternalErrorException;
+import com.github.nothiaki.trtl3_core.shared.filesystem.FileSystem;
 import com.github.nothiaki.trtl3_core.shared.logger.Logger;
 
 @Service
 public class BucketService {
 
   private final Logger logger;
+  private final FileSystem fileSystem;
 
-  public BucketService(Logger logger) {
+  public BucketService(
+    Logger logger,
+    FileSystem fileSystem
+  ) {
     this.logger = logger;
+    this.fileSystem = fileSystem;
   }
 
   private String bucketsRootDir = "./buckets/";
 
   public boolean createBucket(String bucketName) {
     try {
-      File newDirectory = new File(bucketsRootDir + bucketName);
+      boolean created = fileSystem.createDirectory(bucketsRootDir + bucketName);
+
+      if(!created) {
+        logger.info(BucketService.class, "Could not create bucket with name {} was created", bucketName);
+        throw new InternalErrorException();
+      }
 
       logger.info(BucketService.class, "Bucket with name {} was created", bucketName);
-      return newDirectory.mkdirs();
+      return created;
     } catch (Exception e) {
       logger.info(BucketService.class, "Could not create bucket with name {} was created", bucketName, e);
       throw new InternalErrorException();
@@ -35,7 +46,7 @@ public class BucketService {
 
   public List<String> findBuckets() {
     try {
-      File bucketsDirectory = new File(bucketsRootDir);
+      File bucketsDirectory = fileSystem.findDirectory(bucketsRootDir);
       File[] buckets = bucketsDirectory.listFiles(File::isDirectory);
 
       if (!bucketsDirectory.exists()) {
