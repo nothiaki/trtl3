@@ -9,11 +9,18 @@ public class FileSystemImpl implements FileSystem {
 
   @Override
   public boolean createDirectory(String path) {
-    return true;
+    return new File(path).mkdirs();
   }
 
   @Override
   public File findDirectory(String path) {
-    return null;
+    File directory = new File(path);
+
+    if (!directory.exists() || !directory.isDirectory()) {
+      return null;
+    }
+
+    return directory;
   }
+
 }
