@@ -28,4 +28,15 @@ public class FileSystemImpl implements FileSystem {
     return new File(parentDirectory, fileName);
   }
 
+  @Override
+  public File findFile(String path) {
+    File file = new File(path);
+
+    if (!file.exists() || !file.isFile()) {
+      return null;
+    }
+
+    return file;
+  }
+
 }

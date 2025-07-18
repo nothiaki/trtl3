@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentBucketsException;
+import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentObjectException;
 import com.github.nothiaki.trtl3_core.shared.exceptions.InternalErrorException;
 import com.github.nothiaki.trtl3_core.shared.filesystem.FileSystem;
 import com.github.nothiaki.trtl3_core.shared.logger.Logger;
@@ -46,6 +47,30 @@ public class ObjectService {
       logger.error(
         ObjectService.class,
         "Failed to save object {} in bucket {}: {}", objectName, bucketName, e
+      );
+      throw new InternalErrorException();
+    }
+  }
+
+  public boolean removeObject(
+    String objectName,
+    String bucketName
+  ) {
+    try {
+      File object = fileSystem.findFile(bucketsRootDir + bucketName + "/" + objectName);
+
+      if (object == null) {
+        throw new AbsentObjectException();
+      }
+
+      object.delete();
+
+      logger.info(ObjectService.class, "Object {} saved in bucket {} deleted with success", objectName, bucketName);
+      return true;
+    } catch (Exception e) {
+      logger.error(
+        ObjectService.class,
+        "Failed to delete object {} in bucket {}: {}", objectName, bucketName, e
       );
       throw new InternalErrorException();
     }

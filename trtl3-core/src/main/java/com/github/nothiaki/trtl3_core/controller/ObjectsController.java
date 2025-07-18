@@ -3,6 +3,7 @@ package com.github.nothiaki.trtl3_core.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,5 +33,15 @@ public class ObjectsController {
     objectService.createObject(object, objectName, bucketName);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
+
+  @DeleteMapping()
+  public ResponseEntity<Void> removeObject(
+    @RequestParam("object-name") String objectName,
+    @RequestParam("bucket") String bucketName
+  ) {
+    objectService.removeObject(objectName, bucketName);
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
 
 }

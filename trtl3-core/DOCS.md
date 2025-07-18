@@ -19,3 +19,8 @@ note that you should create a bucket before
 MULTIPART-FORM:
 key: object file: any file least 15MB
 2XX
+
+delete an object
+note that you should create a bucket and an object before
+?bucket=bk&object-name=file.jpg
+2XX
