@@ -6,5 +6,6 @@ public interface FileSystem {
 
   public boolean createDirectory(String path);
   public File findDirectory(String path);
+  public File createFile(File parentDirectory, String fileName);
 
 }

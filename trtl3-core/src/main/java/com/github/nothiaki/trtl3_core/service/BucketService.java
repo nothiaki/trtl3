@@ -25,14 +25,14 @@ public class BucketService {
     this.fileSystem = fileSystem;
   }
 
-  private String bucketsRootDir = "./buckets/";
+  private String bucketsRootDir = "/tmp/buckets/";
 
   public boolean createBucket(String bucketName) {
     try {
       boolean created = fileSystem.createDirectory(bucketsRootDir + bucketName);
 
       if(!created) {
-        logger.info(BucketService.class, "Could not create bucket with name {} was created", bucketName);
+        logger.info(BucketService.class, "Could not create bucket with name {}", bucketName);
         throw new InternalErrorException();
       }
 

@@ -23,4 +23,9 @@ public class FileSystemImpl implements FileSystem {
     return directory;
   }
 
+  @Override
+  public File createFile(File parentDirectory, String fileName) {
+    return new File(parentDirectory, fileName);
+  }
+
 }
