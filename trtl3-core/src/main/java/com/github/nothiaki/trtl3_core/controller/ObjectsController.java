@@ -1,9 +1,12 @@
 package com.github.nothiaki.trtl3_core.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +28,7 @@ public class ObjectsController {
   }
 
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Void> createBucket(
+  public ResponseEntity<Void> createObject(
     @RequestPart(value = "object") MultipartFile object,
     @RequestParam("object-name") String objectName,
     @RequestParam("bucket") String bucketName
@@ -43,5 +46,12 @@ public class ObjectsController {
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 
+  @GetMapping
+  public ResponseEntity<List<String>> listObjects(
+    @RequestParam("bucket") String bucketName
+  ) {
+    List<String> objectsNames = objectService.listObjects(bucketName);
+    return ResponseEntity.status(HttpStatus.OK).body(objectsNames);
+  }
 
 }
