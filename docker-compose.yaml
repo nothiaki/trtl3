@@ -1,0 +1,16 @@
+services:
+
+  trtl3-core:
+    build: ./trtl3-core
+    container_name: trtl3-core
+    ports:
+      - 8080:8080
+    volumes:
+      - ./trtl3-core:/trtl3-core
+    networks:
+      - dev
+
+networks:
+
+  dev:
+    driver: bridge
