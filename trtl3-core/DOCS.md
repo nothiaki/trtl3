@@ -24,3 +24,7 @@ delete an object
 note that you should create a bucket and an object before
 ?bucket=bk&object-name=file.jpg
 2XX
+
+find objects
+?bucket=bk
+2XX
