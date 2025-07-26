@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.github.nothiaki.trtl3_core.config.CoreConfig;
 import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentBucketsException;
 import com.github.nothiaki.trtl3_core.shared.exceptions.InternalErrorException;
 import com.github.nothiaki.trtl3_core.shared.filesystem.FileSystem;
@@ -16,20 +17,21 @@ public class BucketService {
 
   private final Logger logger;
   private final FileSystem fileSystem;
+  private final CoreConfig coreConfig;
 
   public BucketService(
     Logger logger,
-    FileSystem fileSystem
+    FileSystem fileSystem,
+    CoreConfig coreConfig
   ) {
     this.logger = logger;
     this.fileSystem = fileSystem;
+    this.coreConfig = coreConfig;
   }
-
-  private String bucketsRootDir = "/tmp/buckets/";
 
   public boolean createBucket(String bucketName) {
     try {
-      boolean created = fileSystem.createDirectory(bucketsRootDir + bucketName);
+      boolean created = fileSystem.createDirectory(coreConfig.getRootDir() + bucketName);
 
       if(!created) {
         logger.info(BucketService.class, "Could not create bucket with name {}", bucketName);
@@ -46,11 +48,11 @@ public class BucketService {
 
   public List<String> findBuckets() {
     try {
-      File bucketsDirectory = fileSystem.findDirectory(bucketsRootDir);
+      File bucketsDirectory = fileSystem.findDirectory(coreConfig.getRootDir());
       File[] buckets = bucketsDirectory.listFiles(File::isDirectory);
 
       if (!bucketsDirectory.exists()) {
-        logger.info(BucketService.class, "No buckets found in directory at path: {}", bucketsRootDir);
+        logger.info(BucketService.class, "No buckets found in directory at path: {}", coreConfig.getRootDir());
         throw new AbsentBucketsException();
       }
 

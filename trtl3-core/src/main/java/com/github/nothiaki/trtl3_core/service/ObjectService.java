@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.nothiaki.trtl3_core.config.CoreConfig;
 import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentBucketsException;
 import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentObjectException;
 import com.github.nothiaki.trtl3_core.shared.exceptions.InternalErrorException;
@@ -18,16 +19,17 @@ public class ObjectService {
 
   private final Logger logger;
   private final FileSystem fileSystem;
+  private final CoreConfig coreConfig;
 
   public ObjectService(
     Logger logger,
-    FileSystem fileSystem
+    FileSystem fileSystem,
+    CoreConfig coreConfig
   ) {
     this.logger = logger;
     this.fileSystem = fileSystem;
+    this.coreConfig = coreConfig;
   }
-
-  private String bucketsRootDir = "/tmp/buckets/";
 
   public boolean createObject(
     MultipartFile object,
@@ -35,7 +37,7 @@ public class ObjectService {
     String bucketName
   ) {
     try {
-      File bucket = fileSystem.findDirectory(bucketsRootDir + bucketName);
+      File bucket = fileSystem.findDirectory(coreConfig.getRootDir() + bucketName);
 
       if (bucket == null) {
         throw new AbsentBucketsException();
@@ -59,7 +61,7 @@ public class ObjectService {
     String bucketName
   ) {
     try {
-      File object = fileSystem.findFile(bucketsRootDir + bucketName + "/" + objectName);
+      File object = fileSystem.findFile(coreConfig.getRootDir() + bucketName + "/" + objectName);
 
       if (object == null) {
         throw new AbsentObjectException();
@@ -80,11 +82,14 @@ public class ObjectService {
 
   public List<String> listObjects(String bucketName) {
     try {
-      File bucketDirectory = fileSystem.findDirectory(bucketsRootDir + bucketName);
+      File bucketDirectory = fileSystem.findDirectory(coreConfig.getRootDir() + bucketName);
       File[] objects = bucketDirectory.listFiles(File::isFile);
 
       if (objects == null) {
-        logger.info(BucketService.class, "No objects found in directory at path: {}", bucketsRootDir + bucketName);
+        logger.info(
+          BucketService.class,
+          "No objects found in directory at path: {}", coreConfig.getRootDir() + bucketName
+        );
         throw new AbsentObjectException();
       }
 
