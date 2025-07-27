@@ -2,7 +2,17 @@ package trtl3sdk
 
 import "fmt"
 
-func Ping() string {
-  return "pong";
+type Client struct {
+	token string
+}
+
+func Init(token string) *Client {
+	return &Client{
+		token: token,
+	}
+}
+
+func (c *Client) Ping() string {
+	return "pong (token: " + c.token + ")"
 }
 
