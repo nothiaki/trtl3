@@ -2,7 +2,7 @@ package trtl3sdk
 
 import "fmt"
 
-func ping() {
+func Ping() {
   return "pong";
 }
 
