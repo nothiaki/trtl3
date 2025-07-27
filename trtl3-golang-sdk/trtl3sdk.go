@@ -1,7 +1,5 @@
 package trtl3sdk
 
-import "fmt"
-
 type Client struct {
 	token string
 }
