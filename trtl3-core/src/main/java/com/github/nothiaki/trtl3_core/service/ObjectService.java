@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +32,7 @@ public class ObjectService {
     this.coreConfig = coreConfig;
   }
 
-  public boolean createObject(
+  public boolean uploadObject(
     MultipartFile object,
     String objectName,
     String bucketName
@@ -103,6 +104,37 @@ public class ObjectService {
       return objectsNames;
     } catch (Exception e) {
       logger.info(BucketService.class, "Could not find the bucket " + bucketName, e);
+      throw new InternalErrorException();
+    }
+  }
+
+  public InputStreamResource downloadObject(
+    String objectName,
+    String bucketName
+  ) {
+    try {
+      InputStreamResource resource =
+        fileSystem.downloadResource(
+          coreConfig.getRootDir() + bucketName + "/" + objectName
+        );
+
+      if (resource == null) {
+        throw new AbsentObjectException();
+      }
+
+      logger.info(
+        ObjectService.class,
+        "Found object object {} saved in bucket {} with success",
+        objectName,
+        bucketName
+      );
+
+      return resource;
+    } catch (Exception e) {
+      logger.error(
+        ObjectService.class,
+        "Could not find object {} saved in bucket {}: {}", objectName, bucketName, e
+      );
       throw new InternalErrorException();
     }
   }

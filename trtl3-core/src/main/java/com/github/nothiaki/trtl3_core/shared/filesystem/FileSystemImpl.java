@@ -1,8 +1,12 @@
 package com.github.nothiaki.trtl3_core.shared.filesystem;
 
 import java.io.File;
+import java.io.FileInputStream;
 
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
+
+import com.github.nothiaki.trtl3_core.shared.exceptions.InternalErrorException;
 
 @Service
 public class FileSystemImpl implements FileSystem {
@@ -37,6 +41,21 @@ public class FileSystemImpl implements FileSystem {
     }
 
     return file;
+  }
+
+  @Override
+  public InputStreamResource downloadResource(String path) {
+    File file = new File(path);
+
+    if (!file.exists() || !file.isFile()) {
+      return null;
+    }
+
+    try {
+      return new InputStreamResource(new FileInputStream(file));
+    } catch (Exception e) {
+      throw new InternalErrorException();
+    }
   }
 
 }

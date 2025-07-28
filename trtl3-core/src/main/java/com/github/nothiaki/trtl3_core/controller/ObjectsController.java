@@ -2,6 +2,9 @@ package com.github.nothiaki.trtl3_core.controller;
 
 import java.util.List;
 
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.nothiaki.trtl3_core.service.ObjectService;
 
-
 @RestController
 @RequestMapping("/objects")
 public class ObjectsController {
@@ -27,13 +29,17 @@ public class ObjectsController {
     this.objectService = objectService;
   }
 
-  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Void> createObject(
+  @PostMapping(
+    path = "/upload",
+    consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<Void> uploadObject(
     @RequestPart(value = "object") MultipartFile object,
     @RequestParam("object-name") String objectName,
     @RequestParam("bucket") String bucketName
   ) {
-    objectService.createObject(object, objectName, bucketName);
+    objectService.uploadObject(object, objectName, bucketName);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
@@ -52,6 +58,20 @@ public class ObjectsController {
   ) {
     List<String> objectsNames = objectService.listObjects(bucketName);
     return ResponseEntity.status(HttpStatus.OK).body(objectsNames);
+  }
+
+  @GetMapping("/download")
+  public ResponseEntity<Resource> DownloadObject(
+    @RequestParam("object-name") String objectName,
+    @RequestParam("bucket") String bucketName
+  ) {
+    InputStreamResource resource = objectService.downloadObject(objectName, bucketName);
+
+    return ResponseEntity
+      .status(HttpStatus.OK)
+      .contentType(MediaType.APPLICATION_OCTET_STREAM)
+      .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + objectName + "\"")
+      .body(resource);
   }
 
 }
