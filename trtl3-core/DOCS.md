@@ -1,30 +1,83 @@
-/buckets
+> [!IMPORTANT]
+> all routes needs a Authorization header with the token
 
-create a bucket
-POST
+### /buckets
+
+---
+
+create a bucket -- POST<br />
+request
+```JSON
 {
-  "bucketName": "bk"
+  "bucketName": "new-bucket"
 }
-2XX
+```
+response -- 2XX -- empty
 
-list buckets
-GET
-2XX
+---
 
-/objects
+list buckets -- GET<br />
+request -- empty<br />
+response -- 2XX
+```JSON
+[
+  "new-bucket"
+]
+```
 
-create a object
-note that you should create a bucket before
-?bucket=bk&object-name=file.jpg
+---
+---
+---
+
+### /objects
+
+---
+
+upload object -- POST<br />
+request<br />
+/upload?bucket=new-bucket&object-name=file.png<br />
+
 MULTIPART-FORM:
-key: object file: any file least 15MB
-2XX
+| key | value |
+| --- | ----- |
+| object | `file` |
 
-delete an object
-note that you should create a bucket and an object before
-?bucket=bk&object-name=file.jpg
-2XX
+response -- 2XX -- empty
 
-find objects
-?bucket=bk
-2XX
+---
+
+delete an object -- DELETE<br />
+request<br />
+?bucket=new-bucket&object-name=file.png<br />
+response -- 2XX -- empty
+
+---
+
+find objects -- GET<br />
+request<br />
+?bucket=new-bucket<br />
+response -- 2XX
+```JSON
+[
+  "file.png"
+]
+```
+
+---
+
+download object -- GET<br />
+request<br />
+/download?bucket=new-bucket&object-name=file.png<br />
+
+response -- 2XX
+
+| name | value |
+| --------------- | --------------- |
+| Content-Type | application/octet-stream |
+| Content-Disposition | attachment; filename="file.png" |
+
+```
+@@@@!!!**binaryfile
+```
+
+---
