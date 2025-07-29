@@ -1,6 +1,9 @@
 package trtl3sdk
 
-import "net/http"
+import (
+	"net/http"
+	"time"
+)
 
 type Client struct {
 	url    string
@@ -8,11 +11,11 @@ type Client struct {
 	httpClient *http.Client
 }
 
-func Init(url string, token string, httpClient *http.Client) *Client {
+func Init(url string, token string) *Client {
 	return &Client{
     url: url,
 		token: token,
-    httpClient: httpClient,
+    httpClient: &http.Client{ Timeout: 5 * time.Second },
 	}
 }
 
