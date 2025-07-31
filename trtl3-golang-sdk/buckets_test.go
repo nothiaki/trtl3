@@ -8,27 +8,16 @@ import (
 	"github.com/jarcoal/httpmock"
 )
 
-func authHandler(token string, status int, body string) httpmock.Responder {
-  return func(req *http.Request) (*http.Response, error) {
-    if req.Header.Get("Authorization") != token {
-      return httpmock.NewStringResponse(http.StatusUnauthorized, ""), nil
-    }
-    return httpmock.NewStringResponse(status, body), nil
-  }
-}
-
 func TestCreateBucket_Success(t *testing.T) {
   httpmock.Activate(t)
 
   defer httpmock.DeactivateAndReset()
 
 	bucketName := "new-bucket"
-	url := "http://localhost:8080"
-	token := "token"
 
   httpmock.RegisterResponder(
     http.MethodPost, fmt.Sprintf("%s/buckets", url),
-    authHandler(token, http.StatusCreated, ""),
+    authHandler(http.StatusCreated, ""),
   )
 
 	c := Init(url, token)
@@ -50,12 +39,10 @@ func TestListBuckets_Success(t *testing.T) {
   defer httpmock.DeactivateAndReset()
 
   bucketName := "new-bucket"
-	url := "http://localhost:8080"
-	token := "token"
 
   httpmock.RegisterResponder(
     http.MethodGet, fmt.Sprintf("%s/buckets", url),
-    authHandler(token, http.StatusOK, fmt.Sprintf(`["%s"]`, bucketName)),
+    authHandler(http.StatusOK, fmt.Sprintf(`["%s"]`, bucketName)),
   )
 
 	c := Init(url, token)
