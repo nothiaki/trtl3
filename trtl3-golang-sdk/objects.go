@@ -9,8 +9,17 @@ import (
 	"path/filepath"
 )
 
-func (c *Client) UploadObject(bucket, objectName string, object io.Reader) (bool, error) {
-	endpoint := fmt.Sprintf("%s/objects/upload?bucket=%s&object-name=%s", c.url, bucket, objectName)
+func (c *Client) UploadObject(
+	bucket string,
+	object io.Reader,
+	objectName string
+) (bool, error) {
+	endpoint := fmt.Sprintf(
+		"%s/objects/upload?bucket=%s&object-name=%s",
+		c.url,
+		bucket,
+		objectName,
+	)
 
 	var buffer bytes.Buffer
 	writer := multipart.NewWriter(&buffer)
@@ -47,5 +56,19 @@ func (c *Client) UploadObject(bucket, objectName string, object io.Reader) (bool
 	}
 
 	return true, nil
+}
+
+func (c *Client) UploadObjectByPath(
+	bucket string,
+	path string,
+	objectName string,
+) (bool, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return false, fmt.Errorf("Error while opening file: %w", err)
+	}
+	defer file.Close()
+
+	return c.UploadObject(bucket, file, objectName)
 }
 
