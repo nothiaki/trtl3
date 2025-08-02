@@ -11,13 +11,11 @@
 Roadmap to build trtl3
 
 - [ ] trtl3-core
-  - [ ] buckets
-  - [ ] objects
-  - [ ] authentication
-  - [ ] sign urls
+  - [x] buckets
+  - [x] objects
+  - [x] authentication
   - [ ] tests
 - [ ] trtl3-golang-sdk
-- [ ] trtl3-java-sdk
 - [ ] trtl3-node-sdk
 - [ ] docs website
 
