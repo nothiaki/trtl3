@@ -12,13 +12,13 @@ request
   "bucketName": "new-bucket"
 }
 ```
-response -- 2XX -- empty
+response -- 201 -- empty
 
 ---
 
 list buckets -- GET<br />
 request -- empty<br />
-response -- 2XX
+response -- 200
 ```JSON
 [
   "new-bucket"
@@ -35,28 +35,28 @@ response -- 2XX
 
 upload object -- POST<br />
 request<br />
-/upload?bucket=new-bucket&object-name=file.png<br />
+/upload?bucket=new-bucket&object=file.png<br />
 
 MULTIPART-FORM:
 | key | value |
 | --- | ----- |
-| object | `file` |
+| content | `file-to-upload.png` |
 
-response -- 2XX -- empty
+response -- 201 -- empty
 
 ---
 
 delete an object -- DELETE<br />
 request<br />
-?bucket=new-bucket&object-name=file.png<br />
-response -- 2XX -- empty
+?bucket=new-bucket&object=file.png<br />
+response -- 200 -- empty
 
 ---
 
 find objects -- GET<br />
 request<br />
 ?bucket=new-bucket<br />
-response -- 2XX
+response -- 200
 ```JSON
 [
   "file.png"
@@ -67,9 +67,9 @@ response -- 2XX
 
 download object -- GET<br />
 request<br />
-/download?bucket=new-bucket&object-name=file.png<br />
+/download?bucket=new-bucket&object=file.png<br />
 
-response -- 2XX
+response -- 200
 
 | name | value |
 | --------------- | --------------- |

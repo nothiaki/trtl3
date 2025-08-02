@@ -35,17 +35,17 @@ public class ObjectsController {
     produces = MediaType.APPLICATION_JSON_VALUE
   )
   public ResponseEntity<Void> uploadObject(
-    @RequestPart(value = "object") MultipartFile object,
-    @RequestParam("object-name") String objectName,
+    @RequestPart(value = "content") MultipartFile content,
+    @RequestParam("object") String objectName,
     @RequestParam("bucket") String bucketName
   ) {
-    objectService.uploadObject(object, objectName, bucketName);
+    objectService.uploadObject(content, objectName, bucketName);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @DeleteMapping()
   public ResponseEntity<Void> removeObject(
-    @RequestParam("object-name") String objectName,
+    @RequestParam("object") String objectName,
     @RequestParam("bucket") String bucketName
   ) {
     objectService.removeObject(objectName, bucketName);
@@ -62,7 +62,7 @@ public class ObjectsController {
 
   @GetMapping("/download")
   public ResponseEntity<Resource> DownloadObject(
-    @RequestParam("object-name") String objectName,
+    @RequestParam("object") String objectName,
     @RequestParam("bucket") String bucketName
   ) {
     InputStreamResource resource = objectService.downloadObject(objectName, bucketName);
