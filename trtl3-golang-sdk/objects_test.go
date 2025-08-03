@@ -83,3 +83,28 @@ func TestUploadObjectByPath_Success(t *testing.T) {
 
 }
 
+func TestListObjects_Success(t *testing.T) {
+  httpmock.Activate(t)
+
+  defer httpmock.DeactivateAndReset()
+
+  bucket := "new-bucket"
+	object := "file.png"
+
+  httpmock.RegisterResponder(
+    http.MethodGet, fmt.Sprintf("%s/objects?bucket=%s", url, bucket),
+    authHandler(http.StatusOK, fmt.Sprintf(`["%s"]`, object)),
+  )
+
+	c := Init(url, token)
+
+	objectList, err := c.ListObjects(bucket)
+	if err != nil {
+		t.Fatalf("Expected no error, but got: %v", err)
+	}
+
+	if objectList[0] != object {
+		t.Errorf("Expected object list to contains %s, but does not have", object)
+	}
+
+}
