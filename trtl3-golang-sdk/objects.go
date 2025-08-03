@@ -2,6 +2,7 @@ package trtl3sdk
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"mime/multipart"
@@ -73,3 +74,39 @@ func (c *Client) UploadObjectByPath(
 	return c.UploadObject(bucket, file, objectName)
 }
 
+func (c *Client) ListObjects(bucketName string) ([]string, error) {
+	url := fmt.Sprintf("%s/objects?bucket=%s", c.url, bucketName)
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("Error trying to create the request: %w", err)
+	}
+
+  req.Header.Set("Authorization", c.token)
+
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("Error while doing a request to the server: %w", err)
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+    return nil, fmt.Errorf("Failed trying to find created objects(status: %d)", res.StatusCode)
+	}
+
+ 	bodyBytes, err := io.ReadAll(res.Body)
+	if err != nil {
+		return nil, fmt.Errorf("Error reading response body: %w", err)
+	}
+
+  objects := []string{}
+
+  err = json.Unmarshal(bodyBytes, &objects)
+  if err != nil {
+    return nil, fmt.Errorf("Error when deserialize response %w", err)
+  }
+
+  return objects, nil
+
+}

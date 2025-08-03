@@ -50,8 +50,6 @@ func (c *Client) ListBuckets() ([]string, error) {
 		return nil, fmt.Errorf("Error trying to create the request: %w", err)
 	}
 
-	req.Header.Set("Content-Type", "application/json")
-
   req.Header.Set("Authorization", c.token)
 
 	res, err := c.httpClient.Do(req)
