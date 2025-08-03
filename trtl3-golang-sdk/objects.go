@@ -6,16 +6,17 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"os"
 	"path/filepath"
 )
 
 func (c *Client) UploadObject(
 	bucket string,
 	object io.Reader,
-	objectName string
+	objectName string,
 ) (bool, error) {
 	endpoint := fmt.Sprintf(
-		"%s/objects/upload?bucket=%s&object-name=%s",
+		"%s/objects/upload?bucket=%s&object=%s",
 		c.url,
 		bucket,
 		objectName,
