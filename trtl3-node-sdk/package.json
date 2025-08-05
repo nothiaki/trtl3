@@ -12,5 +12,9 @@
   "type": "module",
   "dependencies": {
     "axios": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "typescript": "^5.9.2"
   }
 }

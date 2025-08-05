@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { type AxiosInstance } from "axios";
 
 class Trtl3Client {
 
@@ -14,10 +14,9 @@ class Trtl3Client {
     });
   }
 
-  async createBucket(bucketName: string): Promise<any> {
+  async createBucket(bucketName: string): Promise<void> {
     try {
-      const res = await this.client.post(`/buckets`, { name: bucketName });
-      return res.data;
+      return await this.client.post(`/buckets`, { name: bucketName });
     } catch (err: unknown) {
       throw new Error(`Failed when try to create a bucket: ${err}`);
     }
