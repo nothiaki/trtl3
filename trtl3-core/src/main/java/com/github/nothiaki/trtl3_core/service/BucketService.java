@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.nothiaki.trtl3_core.config.CoreConfig;
 import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentBucketsException;
+import com.github.nothiaki.trtl3_core.shared.exceptions.BucketAlreadyExistsException;
 import com.github.nothiaki.trtl3_core.shared.exceptions.InternalErrorException;
 import com.github.nothiaki.trtl3_core.shared.filesystem.FileSystem;
 import com.github.nothiaki.trtl3_core.shared.logger.Logger;
@@ -30,6 +31,13 @@ public class BucketService {
   }
 
   public boolean createBucket(String bucketName) {
+    List<String> buckets = listBuckets();
+
+    if (buckets.contains(bucketName)) {
+      logger.info(BucketService.class, "Bucket {} already exists", bucketName);
+      throw new BucketAlreadyExistsException();
+    }
+
     try {
       boolean created = fileSystem.createDirectory(coreConfig.getRootDir() + bucketName);
 
@@ -47,27 +55,29 @@ public class BucketService {
   }
 
   public List<String> findBuckets() {
-    try {
-      File bucketsDirectory = fileSystem.findDirectory(coreConfig.getRootDir());
-      File[] buckets = bucketsDirectory.listFiles(File::isDirectory);
+    List<String> bucketsNames = listBuckets();
 
-      if (!bucketsDirectory.exists()) {
-        logger.info(BucketService.class, "No buckets found in directory at path: {}", coreConfig.getRootDir());
-        throw new AbsentBucketsException();
-      }
+    logger.info(BucketService.class, "Successfully found {} buckets", bucketsNames.size());
+    return bucketsNames;
+  }
 
-      List<String> bucketsNames = new ArrayList<>();
+  private List<String> listBuckets() {
+    File bucketsDirectory = fileSystem.findDirectory(coreConfig.getRootDir());
 
-      for(File dir : buckets) {
-        bucketsNames.add(dir.getName());
-      }
-
-      logger.info(BucketService.class, "Successfully found {} buckets", bucketsNames.size());
-      return bucketsNames;
-    } catch (Exception e) {
-      logger.info(BucketService.class, "Could not find created buckets", e);
-      throw new InternalErrorException();
+    if (!bucketsDirectory.exists()) {
+      logger.info(BucketService.class, "No buckets found in directory at path: {}", coreConfig.getRootDir());
+      throw new AbsentBucketsException();
     }
+
+    File[] buckets = bucketsDirectory.listFiles(File::isDirectory);
+
+    List<String> bucketsNames = new ArrayList<>();
+
+    for(File d : buckets) {
+      bucketsNames.add(d.getName());
+    }
+
+    return bucketsNames;
   }
 
 }
