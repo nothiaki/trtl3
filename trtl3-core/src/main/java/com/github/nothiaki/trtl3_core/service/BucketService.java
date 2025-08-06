@@ -81,7 +81,7 @@ public class BucketService {
   }
 
   public File findBucketByName(String bucketName) {
-    return fileSystem.findDirectory(coreConfig.getToken() + bucketName);
+    return fileSystem.findDirectory(coreConfig.getRootDir() + bucketName);
   }
 
 }

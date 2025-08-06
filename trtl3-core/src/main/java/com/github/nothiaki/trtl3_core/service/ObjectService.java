@@ -80,7 +80,8 @@ public class ObjectService {
     String bucketName
   ) {
     try {
-      File object = fileSystem.findFile(coreConfig.getRootDir() + bucketName + "/" + objectName);
+      File bucket = bucketService.findBucketByName(bucketName);
+      File object = fileSystem.findFile(bucket.getPath() + "/" + objectName);
 
       if (object == null) {
         throw new AbsentObjectException();
@@ -90,12 +91,12 @@ public class ObjectService {
 
       logger.info(ObjectService.class, "Object {} saved in bucket {} deleted with success", objectName, bucketName);
       return true;
-    } catch (AbsentBucketsException e) {
+    } catch (AbsentBucketsException | AbsentObjectException e) {
       throw e;
     } catch (Exception e) {
       logger.error(
         ObjectService.class,
-        "Failed to delete object {} in bucket {}: {}", objectName, bucketName, e
+        "Failed to delete object {} in bucket {}", objectName, bucketName, e
       );
       throw new InternalErrorException();
     }
@@ -141,9 +142,10 @@ public class ObjectService {
     String bucketName
   ) {
     try {
+      File bucket = bucketService.findBucketByName(bucketName);
       InputStreamResource resource =
         fileSystem.downloadResource(
-          coreConfig.getRootDir() + bucketName + "/" + objectName
+          bucket.getPath() + "/" + objectName
         );
 
       if (resource == null) {
