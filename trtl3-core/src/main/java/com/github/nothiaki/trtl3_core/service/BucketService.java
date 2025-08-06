@@ -80,4 +80,8 @@ public class BucketService {
     return bucketsNames;
   }
 
+  public File findBucketByName(String bucketName) {
+    return fileSystem.findDirectory(coreConfig.getToken() + bucketName);
+  }
+
 }

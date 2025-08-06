@@ -22,15 +22,18 @@ public class ObjectService {
   private final Logger logger;
   private final FileSystem fileSystem;
   private final CoreConfig coreConfig;
+  private final BucketService bucketService;
 
   public ObjectService(
     Logger logger,
     FileSystem fileSystem,
-    CoreConfig coreConfig
+    CoreConfig coreConfig,
+    BucketService bucketService
   ) {
     this.logger = logger;
     this.fileSystem = fileSystem;
     this.coreConfig = coreConfig;
+    this.bucketService = bucketService;
   }
 
   public boolean uploadObject(
@@ -39,7 +42,7 @@ public class ObjectService {
     String bucketName
   ) {
     try {
-      File bucket = fileSystem.findDirectory(coreConfig.getRootDir() + bucketName);
+      File bucket = bucketService.findBucketByName(bucketName);
 
       if (bucket == null) {
         throw new AbsentBucketsException();
@@ -112,10 +115,8 @@ public class ObjectService {
 
   private List<String> listObjects(String bucketName) {
     try {
-      String dir = coreConfig.getRootDir() + bucketName;
-
-      File bucketDirectory = fileSystem.findDirectory(dir);
-      File[] objects = bucketDirectory.listFiles(File::isFile);
+      File bucket = bucketService.findBucketByName(bucketName);
+      File[] objects = bucket.listFiles(File::isFile);
 
       if (objects == null) {
         return new ArrayList<>();
