@@ -19,7 +19,7 @@ public class MiddlewareConfig {
   public FilterRegistrationBean<AuthMiddleware> authMiddleware() {
     FilterRegistrationBean<AuthMiddleware> bean = new FilterRegistrationBean<>();
     bean.setFilter(new AuthMiddleware(coreConfig));
-    bean.addUrlPatterns("*");
+    bean.addUrlPatterns("/buckets/*", "/objects/*");
     return bean;
   }
 
