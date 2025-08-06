@@ -53,10 +53,10 @@ public class ObjectsController {
   }
 
   @GetMapping
-  public ResponseEntity<List<String>> listObjects(
+  public ResponseEntity<List<String>> findObjects(
     @RequestParam("bucket") String bucketName
   ) {
-    List<String> objectsNames = objectService.listObjects(bucketName);
+    List<String> objectsNames = objectService.findObjects(bucketName);
     return ResponseEntity.status(HttpStatus.OK).body(objectsNames);
   }
 

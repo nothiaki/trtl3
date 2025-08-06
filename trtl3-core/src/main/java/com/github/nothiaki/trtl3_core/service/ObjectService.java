@@ -81,17 +81,27 @@ public class ObjectService {
     }
   }
 
-  public List<String> listObjects(String bucketName) {
+  public List<String> findObjects(String bucketName) {
+    List<String> bucketsNames = listObjects(bucketName);
+
+    logger.info(
+      BucketService.class,
+      "Successfully found {} objects in bucket {}",
+      bucketsNames.size(), bucketName
+    );
+
+    return bucketsNames;
+  }
+
+  private List<String> listObjects(String bucketName) {
     try {
-      File bucketDirectory = fileSystem.findDirectory(coreConfig.getRootDir() + bucketName);
+      String dir = coreConfig.getRootDir() + bucketName;
+
+      File bucketDirectory = fileSystem.findDirectory(dir);
       File[] objects = bucketDirectory.listFiles(File::isFile);
 
       if (objects == null) {
-        logger.info(
-          BucketService.class,
-          "No objects found in directory at path: {}", coreConfig.getRootDir() + bucketName
-        );
-        throw new AbsentObjectException();
+        return new ArrayList<>();
       }
 
       List<String> objectsNames = new ArrayList<>();
