@@ -12,6 +12,7 @@ import com.github.nothiaki.trtl3_core.config.CoreConfig;
 import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentBucketsException;
 import com.github.nothiaki.trtl3_core.shared.exceptions.AbsentObjectException;
 import com.github.nothiaki.trtl3_core.shared.exceptions.InternalErrorException;
+import com.github.nothiaki.trtl3_core.shared.exceptions.ObjectAlreadyExistsException;
 import com.github.nothiaki.trtl3_core.shared.filesystem.FileSystem;
 import com.github.nothiaki.trtl3_core.shared.logger.Logger;
 
@@ -44,10 +45,24 @@ public class ObjectService {
         throw new AbsentBucketsException();
       }
 
+      List<String> currentObjectsNames = listObjects(bucketName);
+
+      if (currentObjectsNames.contains(objectName)) {
+        logger.info(
+          ObjectService.class,
+          "Object with name: {} already exists in bucket {}",
+          objectName,
+          bucketName
+        );
+        throw new ObjectAlreadyExistsException();
+      }
+
       object.transferTo(fileSystem.createFile(bucket, objectName));
 
       logger.info(ObjectService.class, "Object {} saved in bucket {}", objectName, bucketName);
       return true;
+    } catch (ObjectAlreadyExistsException | AbsentBucketsException e) {
+      throw e;
     } catch (Exception e) {
       logger.error(
         ObjectService.class,
@@ -72,6 +87,8 @@ public class ObjectService {
 
       logger.info(ObjectService.class, "Object {} saved in bucket {} deleted with success", objectName, bucketName);
       return true;
+    } catch (AbsentBucketsException e) {
+      throw e;
     } catch (Exception e) {
       logger.error(
         ObjectService.class,
@@ -140,6 +157,8 @@ public class ObjectService {
       );
 
       return resource;
+    } catch (AbsentBucketsException e) {
+      throw e;
     } catch (Exception e) {
       logger.error(
         ObjectService.class,
