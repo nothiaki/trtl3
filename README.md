@@ -2,7 +2,7 @@
   <img alt="Trtl3 Logo" src=".github/assets/readme/trtl3.svg" width="200"/>
 </div>
 
-<h1 align="center">🐢 Trtl3</h1>
+<h1 align="center">Trtl3</h1>
 
 <p align="center">
   A simple, local file storage service designed for devs who are just starting to explore the world of <strong>blob storage</strong>!  
@@ -19,7 +19,7 @@
 
 ## ✨ About the Project
 
-**Trtl3** is a local file storage service inspired by solutions like Amazon S3, MinIO, and other blob storage systems. It's designed especially for beginner developers who want to learn how object storage works in practice — without the complexity of cloud services or external dependencies.
+**Trtl3**🐢 is a local file storage service inspired by solutions like Amazon S3, MinIO, and other blob storage systems. It's designed especially for beginner developers who want to learn how object storage works in practice — without the complexity of cloud services or external dependencies.
 
 If you're building or experimenting with file uploads, downloads, and basic file organization via HTTP — Trtl3 is a great starting point!
 

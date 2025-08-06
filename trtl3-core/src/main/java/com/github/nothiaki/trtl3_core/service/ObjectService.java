@@ -160,7 +160,7 @@ public class ObjectService {
       );
 
       return resource;
-    } catch (AbsentBucketsException e) {
+    } catch (AbsentBucketsException | AbsentObjectException e) {
       throw e;
     } catch (Exception e) {
       logger.error(
