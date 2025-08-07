@@ -29,7 +29,7 @@ func (c *Client) UploadObject(
 	var buffer bytes.Buffer
 	writer := multipart.NewWriter(&buffer)
 
-	formFile, err := writer.CreateFormFile("object", filepath.Base(objectName))
+	formFile, err := writer.CreateFormFile("content", filepath.Base(objectName))
 	if err != nil {
 		return false, fmt.Errorf("Error creating form file: %w", err)
 	}
@@ -77,6 +77,11 @@ func (c *Client) UploadObjectByPath(
 	return c.UploadObject(bucket, file, objectName)
 }
 
+// =======================================
+
+// GET /objects
+// =======================================
+
 func (c *Client) ListObjects(bucketName string) ([]string, error) {
 	url := fmt.Sprintf("%s/objects?bucket=%s", c.url, bucketName)
 
@@ -111,6 +116,41 @@ func (c *Client) ListObjects(bucketName string) ([]string, error) {
   }
 
   return objects, nil
+
+}
+
+// =======================================
+
+// DELETE /objects
+// =======================================
+
+func (c *Client) DeleteObject(bucketName string, objecstName string) (bool, error) {
+	url := fmt.Sprintf(
+		"%s/objects?bucket=%s&object=%s",
+		c.url,
+		bucketName,
+		objecstName,
+		)
+
+	req, err := http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		return false, fmt.Errorf("Error trying to create the request: %w", err)
+	}
+
+  req.Header.Set("Authorization", c.token)
+
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return false, fmt.Errorf("Error while doing a request to the server: %w", err)
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+    return false, fmt.Errorf("Failed trying to delete object (status: %d)", res.StatusCode)
+	}
+
+  return true, nil
 
 }
 
