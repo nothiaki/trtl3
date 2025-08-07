@@ -11,6 +11,9 @@ import (
 	"path/filepath"
 )
 
+// POST /objects/upload
+// =======================================
+
 func (c *Client) UploadObject(
 	bucket string,
 	object io.Reader,
@@ -110,3 +113,5 @@ func (c *Client) ListObjects(bucketName string) ([]string, error) {
   return objects, nil
 
 }
+
+// =======================================

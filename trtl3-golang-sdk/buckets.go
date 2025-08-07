@@ -8,6 +8,9 @@ import (
 	"net/http"
 )
 
+// POST /buckets
+// =======================================
+
 func (c *Client) CreateBucket(bucketName string) (bool, error) {
 	url := fmt.Sprintf("%s/buckets", c.url)
 
@@ -41,6 +44,11 @@ func (c *Client) CreateBucket(bucketName string) (bool, error) {
 
 	return true, nil
 }
+
+// =======================================
+
+// GET /buckets
+// =======================================
 
 func (c *Client) ListBuckets() ([]string, error) {
 	url := fmt.Sprintf("%s/buckets", c.url)
@@ -78,3 +86,6 @@ func (c *Client) ListBuckets() ([]string, error) {
   return buckets, nil
 
 }
+
+// =======================================
+
