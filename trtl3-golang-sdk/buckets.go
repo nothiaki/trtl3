@@ -89,3 +89,36 @@ func (c *Client) ListBuckets() ([]string, error) {
 
 // =======================================
 
+// DELETE /buckets
+// =======================================
+
+func (c *Client) DeleteBucket(bucketName string) (bool, error) {
+	url := fmt.Sprintf(
+		"%s/buckets?bucket=%s",
+		c.url,
+		bucketName,
+		)
+
+	req, err := http.NewRequest(http.MethodDelete, url, nil)
+	if err != nil {
+		return false, fmt.Errorf("Error trying to create the request: %w", err)
+	}
+
+  req.Header.Set("Authorization", c.token)
+
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return false, fmt.Errorf("Error while doing a request to the server: %w", err)
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+    return false, fmt.Errorf("Failed trying to delete bucket (status: %d)", res.StatusCode)
+	}
+
+  return true, nil
+
+}
+
+// =======================================

@@ -86,7 +86,7 @@ public class BucketService {
 
   public void removeBucket(String bucketName) {
     try {
-     List<String> bucketsNames = findBuckets();
+      List<String> bucketsNames = findBuckets();
 
       if (!bucketsNames.contains(bucketName)) {
         logger.info(
