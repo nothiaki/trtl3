@@ -11,5 +11,6 @@ public interface FileSystem {
   public File findFile(String path);
   public File createFile(File parentDirectory, String fileName);
   public InputStreamResource downloadResource(String path);
+  public boolean deleteDirectory(String path);
 
 }

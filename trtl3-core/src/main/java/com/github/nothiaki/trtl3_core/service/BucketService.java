@@ -84,4 +84,41 @@ public class BucketService {
     return fileSystem.findDirectory(coreConfig.getRootDir() + bucketName);
   }
 
+  public void removeBucket(String bucketName) {
+    try {
+     List<String> bucketsNames = findBuckets();
+
+      if (!bucketsNames.contains(bucketName)) {
+        logger.info(
+          BucketService.class,
+          "Did not found bucket with name {}",
+          bucketName
+        );
+        throw new AbsentBucketsException();
+      }
+
+      File bucket = findBucketByName(bucketName);
+
+      if (!fileSystem.deleteDirectory(bucket.getPath())) {
+        throw new InternalErrorException();
+      }
+
+      logger.info(
+        BucketService.class,
+        "Deleted bucket with name {} with success",
+        bucketName
+      );
+    } catch (AbsentBucketsException e) {
+      throw e;
+    } catch (Exception e) {
+      logger.error(
+        BucketService.class,
+        "Error while trying to delete bucket with name {}",
+        bucketName
+      );
+      throw new InternalErrorException();
+    }
+
+  }
+
 }

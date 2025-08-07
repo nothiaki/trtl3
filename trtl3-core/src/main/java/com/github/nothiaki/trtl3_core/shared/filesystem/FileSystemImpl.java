@@ -58,4 +58,30 @@ public class FileSystemImpl implements FileSystem {
     }
   }
 
+  @Override
+  public boolean deleteDirectory(String path) {
+    try {
+      File dir = findDirectory(path);
+
+      deleteDirectoryRecursive(dir);
+      return true;     
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
+  public void deleteDirectoryRecursive(File dir) {
+    if (dir.isDirectory()) {
+      File[] in = dir.listFiles();
+
+      if (in != null) {
+        for (File f : in) {
+          deleteDirectoryRecursive(f);
+        }
+      }
+    }
+
+    dir.delete();
+  }
+
 }
