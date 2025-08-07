@@ -124,12 +124,12 @@ func (c *Client) ListObjects(bucketName string) ([]string, error) {
 // DELETE /objects
 // =======================================
 
-func (c *Client) DeleteObject(bucketName string, objecstName string) (bool, error) {
+func (c *Client) DeleteObject(bucketName string, objectName string) (bool, error) {
 	url := fmt.Sprintf(
 		"%s/objects?bucket=%s&object=%s",
 		c.url,
 		bucketName,
-		objecstName,
+		objectName,
 		)
 
 	req, err := http.NewRequest(http.MethodDelete, url, nil)
@@ -155,3 +155,42 @@ func (c *Client) DeleteObject(bucketName string, objecstName string) (bool, erro
 }
 
 // =======================================
+
+// GET /objects/download
+// =======================================
+
+func (c *Client) DownloadObject(bucketName string, objectName string) (io.Reader, error) {
+	url := fmt.Sprintf(
+		"%s/objects/download?bucket=%s&object=%s",
+		c.url,
+		bucketName,
+		objectName,
+		)
+
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("Error trying to create the request: %w", err)
+	}
+
+  req.Header.Set("Authorization", c.token)
+
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("Error while doing a request to the server: %w", err)
+	}
+
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+    return nil, fmt.Errorf("Failed trying to download object (status: %d)", res.StatusCode)
+	}
+
+	data, err := io.ReadAll(res.Body)
+  if err != nil {
+    return nil, fmt.Errorf("Failed to read response body: %w", err)
+  }
+
+  return bytes.NewReader(data), nil
+}
+
+// ======================================
