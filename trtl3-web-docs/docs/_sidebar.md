@@ -3,7 +3,7 @@
   - [Usage](README.md)
 
 - SDK's
-  - [Golang](README.md)
+  - [Golang](SDK_Golang.md)
   - [Node](README.md)
 
 - Trtl3 Core
