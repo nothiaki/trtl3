@@ -1,8 +1,10 @@
 import axios, { type AxiosInstance } from "axios";
+import { BucketApi } from "./buckets.js";
 
 class Trtl3ClientImpl {
 
   private client: AxiosInstance;
+  public bucket: BucketApi;
 
   constructor(url: string, token: string) {
     this.client = axios.create({
@@ -12,24 +14,12 @@ class Trtl3ClientImpl {
         'Authorization': token,
       },
     });
-  }
 
-  async createBucket(bucketName: string): Promise<boolean> {
-    try {
-      const res = await this.client.post(`/buckets`, { bucketName });
-
-      if (res.status != 201) {
-        return false;
-      }
-
-      return true;
-    } catch (err: unknown) {
-      return false;
-    }
+    this.bucket = new BucketApi(this.client);
   }
 
 }
-
+ 
 export type Trtl3Client = InstanceType<typeof Trtl3ClientImpl>;
 
 export class trtl3sdk {
