@@ -4,7 +4,7 @@
 
 - SDK's
   - [Golang](SDK_Golang.md)
-  - [Node](README.md)
+  - [Node](SDK_Node.md)
 
 - Trtl3 Core
   - Install
