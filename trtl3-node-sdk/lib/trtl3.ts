@@ -1,10 +1,12 @@
 import axios, { type AxiosInstance } from "axios";
 import { BucketApi } from "./buckets.js";
+import { ObjectApi } from "./objects.js";
 
 class Trtl3ClientImpl {
 
   private client: AxiosInstance;
   public bucket: BucketApi;
+  public object: ObjectApi;
 
   constructor(url: string, token: string) {
     this.client = axios.create({
@@ -16,6 +18,7 @@ class Trtl3ClientImpl {
     });
 
     this.bucket = new BucketApi(this.client);
+    this.object = new ObjectApi(this.client);
   }
 
 }
