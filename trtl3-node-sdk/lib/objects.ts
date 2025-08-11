@@ -20,5 +20,24 @@ export class ObjectApi {
     }
   }
 
+  async remove(
+    bucketName: string,
+    objectName: string,
+  ): Promise<boolean> {
+    try {
+      const res = await this.client.delete(
+        `/objects?bucket=${bucketName}&object=${objectName}`,
+      );
+
+      if (res.status != 200) {
+        return false;
+      }
+
+      return true;
+    } catch (err: unknown) {
+      return false;
+    }
+  }
+
 }
 
