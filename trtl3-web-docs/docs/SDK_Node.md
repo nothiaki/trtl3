@@ -40,3 +40,33 @@ const deleted: boolean = await trtl3.bucket.remove('created-bucket');
 console.log(deleted);
 ```
 
+## Upload Object
+
+You can use the path of the current object or an file, look!
+
+```typescript
+```
+
+## List Objects
+
+```typescript
+const objects: string[] = await trtl3.object.list('created-bucket');
+
+console.log(objects);
+```
+
+## Delete Object
+
+```typescript
+const deleted: boolean = await trtl3.object.remove(
+  'created-bucket',
+  'created-object.png',
+);
+
+console.log(deleted);
+```
+
+## Download Object
+
+```typescript
+```
