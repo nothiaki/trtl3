@@ -39,5 +39,24 @@ export class ObjectApi {
     }
   }
 
+  async download(
+    bucketName: string,
+    objectName: string,
+  ): Promise<Buffer | null> {
+    try {
+      const res = await this.client.get(
+        `/objects?bucket=${bucketName}&object=${objectName}`,
+      );
+
+      if (res.status !== 200) {
+        return null;
+      }
+
+      return Buffer.from(res.data);
+    } catch (err: unknown) {
+      return null;
+    }
+  }
+
 }
 
