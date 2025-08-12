@@ -69,4 +69,22 @@ console.log(deleted);
 ## Download Object
 
 ```typescript
+const bf: Buffer | null = await trtl3.object.download(
+  'created-bucket',
+  'created-object.png',
+);
+
+if (bf != null) {
+  fs.writeFile('./new-file.png', bf, (err) => {
+    if (err) {
+      console.log('Error while saving file');
+    } else {
+      console.log('File saved');
+    }
+  });
+} else {
+  console.log('Buffer is null');
+}
+
+
 ```
