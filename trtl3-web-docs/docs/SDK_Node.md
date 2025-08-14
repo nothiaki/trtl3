@@ -85,6 +85,4 @@ if (bf != null) {
 } else {
   console.log('Buffer is null');
 }
-
-
 ```
