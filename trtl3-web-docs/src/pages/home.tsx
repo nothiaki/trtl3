@@ -36,7 +36,7 @@ export default function Home() {
               </p>
               <div className="flex gap-4 flex-col md:flex-row md:items-end">
                 <a
-                  href="../../docs/index.html"
+                  href="/docs/index.html"
                   className="bg-accent-500 text-primary-100 px-8 py-3 rounded-lg font-medium hover:bg-accent-600 transition-colors flex items-center gap-2 justify-center md:justify-start"
                 >
                   Docs
