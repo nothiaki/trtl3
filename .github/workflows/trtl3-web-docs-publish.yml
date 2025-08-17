@@ -28,8 +28,15 @@ jobs:
         run: npm run build
         working-directory: trtl3-web-docs
 
+      - name: Deployment directory
+        run: |
+          mkdir publish
+          cp -r trtl3-web-docs/dist/* publish/
+          mkdir publish/docs
+          cp -r docs/* publish/docs/
+
       - name: Deploy to github pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: trtl3-web-docs/dist
+          publish_dir: ./publish
