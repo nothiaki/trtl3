@@ -1,6 +1,6 @@
 import {
   Database,
-  Clock,
+  Book,
   ArrowRight,
   Feather,
   MousePointerClick,
@@ -76,7 +76,7 @@ export default function Home() {
               desc="Designed with simplicity in mindset up quickly, write less code, and focus on building."
             />
             <Card
-              icon={Clock}
+              icon={Book}
               title="Great for learning"
               desc="Understand how object storage works under the hood without cloud complexity."
             />

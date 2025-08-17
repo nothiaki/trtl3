@@ -7,7 +7,6 @@ on:
     paths:
       - "trtl3-web-docs/**"
 
-
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -23,12 +22,14 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
+        working-directory: trtl3-web-docs
 
       - name: Build project
         run: npm run build
+        working-directory: trtl3-web-docs
 
       - name: Deploy to github pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
+          publish_dir: trtl3-web-docs/dist
