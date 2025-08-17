@@ -13,7 +13,7 @@
 
   - API
     - [Authentication](API_Authentication.md)
-    - [Endpoints](README.md)
+    - [Endpoints](API_Endpoints.md)
 
 <!-- - Trtl3 Studio -->
 <!--   - [Install](README.md) -->
