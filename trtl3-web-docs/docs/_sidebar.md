@@ -1,6 +1,6 @@
-<!-- - Getting Started -->
-<!--   - [Install](README.md) -->
-<!--   - [Usage](README.md) -->
+- Getting Started
+  - [Install](GS_Install.md)
+  - [Usage](GS_Usage.md)
 
 - SDK's
   - [Golang](SDK_Golang.md)
