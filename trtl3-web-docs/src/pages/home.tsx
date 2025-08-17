@@ -15,7 +15,7 @@ export default function Home() {
       <div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex flex-col items-center md:flex-row justify-between gap-8">
-            <img src="../../public/logo.svg" alt="Trtl3's logo" className="h-48 md:h-full" />
+            <img src="logo.svg" alt="Trtl3's logo" className="h-48 md:h-full" />
             <div>
               <div className="flex items-end">
                 <h2 className="text-2xl md:text-4xl font-semibold text-gray-900 mb-6 mr-2">
