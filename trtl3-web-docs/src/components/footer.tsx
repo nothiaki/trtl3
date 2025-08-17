@@ -7,7 +7,7 @@ export function Footer() {
             Copyright &copy; 2025 - Present Trlt3.
           </div>
           <div className="flex gap-6">
-            <a href="../../docs/index.html" className="text-gray-900 hover:text-accent-500">
+            <a href="docs/" className="text-gray-900 hover:text-accent-500">
               Docs
             </a>
             <a
