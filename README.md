@@ -3,6 +3,8 @@
 </div>
 
 <p align="center">
+  <a href="https://hub.docker.com/r/nothiaki/trtl3-core"><img src="https://img.shields.io/docker/pulls/nothiaki/trtl3-core.svg" alt="DockerHub pulls"></a>
+  <a href="https://github.com/nothiaki/trtl3/actions"><img src="https://img.shields.io/github/actions/workflow/status/nothiaki/trtl3/trtl3-core-publish.yml" alt="Trtl3 Cora Build"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg" alt="License: AGPL-3.0"></a>
   <a href=""><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg" alt="Contributions welcome"></a>
 </p>
