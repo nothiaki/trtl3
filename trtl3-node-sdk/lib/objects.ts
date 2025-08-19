@@ -1,8 +1,37 @@
 import type { AxiosInstance } from "axios";
+import FormData from "form-data";
 
 export class ObjectApi {
 
   constructor(private client: AxiosInstance) {}
+
+  async upload(
+    bucketName: string,
+    objectName: string,
+    data: Buffer,
+  ): Promise<boolean> {
+    try {
+      const form = new FormData();
+
+      form.append('content', data, { filename: objectName });
+
+      const res = await this.client.post(
+        `/objects/upload?bucket=${bucketName}&object=${objectName}`,
+        form,
+        {
+          headers: form.getHeaders(),
+        },
+      );
+
+      if (res.status !== 201) {
+        return false;
+      }
+
+      return true;
+    } catch (err: unknown) {
+      return false;
+    }
+  }
 
   async list(
     bucketName: string,
