@@ -1,5 +1,6 @@
-import type { AxiosInstance } from "axios";
-import FormData from "form-data";
+import type { AxiosInstance } from 'axios';
+import FormData from 'form-data';
+import * as fs from 'fs';
 
 export class ObjectApi {
 
@@ -32,6 +33,27 @@ export class ObjectApi {
       return false;
     }
   }
+
+  async uploadByPath(
+    bucketName: string,
+    objectName: string,
+    path: string,
+  ): Promise<boolean> {
+    try {
+      const data = fs.readFileSync(path);
+
+      const uploaded = await this.upload(
+        bucketName,
+        objectName,
+        data,
+      );
+
+      return uploaded;
+    } catch (err: unknown) {
+      return false;
+    }
+  }
+
 
   async list(
     bucketName: string,

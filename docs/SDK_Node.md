@@ -45,6 +45,14 @@ console.log(deleted);
 You can use the path of the current object or an file, look!
 
 ```typescript
+// by path
+const uploaded: boolean = await trtl3.object.uploadByPath(
+  "my-bucket",
+  "new-object.png",
+  "/your/fie/path.png",
+);
+
+// by file
 const data = fs.readFileSync("/your/fie/path.png");
 
 const uploaded: boolean = await trtl3.object.upload(
@@ -52,8 +60,6 @@ const uploaded: boolean = await trtl3.object.upload(
   "new-object.png",
   data,
 );
-
-console.log(uploaded);
 ```
 
 ## List Objects
