@@ -15,7 +15,7 @@ import (
 func main() {
 
   trtl3 := trtl3sdk.Init(
-    "http://localhost:8080", // your running trtl3 server url
+    "http://localhost:7713", // your running trtl3 server url
     "trtl3",                 // trtl3 access token
   )
 

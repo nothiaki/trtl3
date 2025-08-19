@@ -11,7 +11,7 @@ After installed, simply follow the usage example below.
 import { trtl3sdk, type Trtl3Client } from './trtl3.js';
 
 const trtl3: Trtl3Client = trtl3sdk.init(
-  'http://localhost:8080/',  // your running trtl3 server url
+  'http://localhost:7713/',  // your running trtl3 server url
   'trtl3',                   // trtl3 access token
 );
 ```
@@ -45,6 +45,15 @@ console.log(deleted);
 You can use the path of the current object or an file, look!
 
 ```typescript
+const data = fs.readFileSync("/your/fie/path.png");
+
+const uploaded: boolean = await trtl3.object.upload(
+  "my-bucket",
+  "new-object.png",
+  data,
+);
+
+console.log(uploaded);
 ```
 
 ## List Objects
