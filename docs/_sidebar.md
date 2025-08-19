@@ -7,9 +7,9 @@
   - [Node](SDK_Node.md)
 
 - Trtl3 Core
-  <!-- - Install -->
-  <!--   - [Requirements](README.md) -->
-  <!--   - [Installation Guide](README.md) -->
+  - Getting Started
+    - [Requirements](GS_Requirements.md)
+    - [Installation Guide](GS_Install.md)
 
   - API
     - [Authentication](API_Authentication.md)
