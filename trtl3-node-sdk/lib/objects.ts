@@ -15,13 +15,13 @@ export class ObjectApi {
 
 			form.append('content', data, { filename: objectName });
 
-			const res = await this.client.post(
-				`/objects/upload?bucket=${bucketName}&object=${objectName}`,
-				form,
-				{
-					headers: form.getHeaders(),
+			const res = await this.client.post('/objects/upload', form, {
+				params: {
+					bucket: bucketName,
+					object: objectName,
 				},
-			);
+				headers: form.getHeaders(),
+			});
 
 			if (res.status !== 201) {
 				return false;
@@ -51,7 +51,11 @@ export class ObjectApi {
 
 	async list(bucketName: string): Promise<string[]> {
 		try {
-			const res = await this.client.get(`/objects?bucket=${bucketName}`);
+			const res = await this.client.get('/objects', {
+				params: {
+					bucket: bucketName,
+				},
+			});
 
 			if (res.status != 200) {
 				return [];
@@ -65,9 +69,12 @@ export class ObjectApi {
 
 	async remove(bucketName: string, objectName: string): Promise<boolean> {
 		try {
-			const res = await this.client.delete(
-				`/objects?bucket=${bucketName}&object=${objectName}`,
-			);
+			const res = await this.client.delete('/objects', {
+				params: {
+					bucket: bucketName,
+					object: objectName,
+				},
+			});
 
 			if (res.status != 200) {
 				return false;
@@ -84,9 +91,12 @@ export class ObjectApi {
 		objectName: string,
 	): Promise<Buffer | null> {
 		try {
-			const res = await this.client.get(
-				`/objects?bucket=${bucketName}&object=${objectName}`,
-			);
+			const res = await this.client.get('/objects', {
+				params: {
+					bucket: bucketName,
+					object: objectName,
+				},
+			});
 
 			if (res.status !== 200) {
 				return null;

@@ -33,7 +33,9 @@ export class BucketApi {
 
 	async remove(bucketName: string): Promise<boolean> {
 		try {
-			const res = await this.client.delete(`/buckets?bucket=${bucketName}`);
+			const res = await this.client.delete('/buckets', {
+				params: { bucket: bucketName },
+			});
 
 			if (res.status != 200) {
 				return false;
