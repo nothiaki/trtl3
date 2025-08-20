@@ -90,7 +90,7 @@ func (c *Client) ListObjects(bucketName string) ([]string, error) {
 		return nil, fmt.Errorf("Error trying to create the request: %w", err)
 	}
 
-  req.Header.Set("Authorization", c.token)
+	req.Header.Set("Authorization", c.token)
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
@@ -100,22 +100,22 @@ func (c *Client) ListObjects(bucketName string) ([]string, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-    return nil, fmt.Errorf("Failed trying to find created objects(status: %d)", res.StatusCode)
+		return nil, fmt.Errorf("Failed trying to find created objects(status: %d)", res.StatusCode)
 	}
 
- 	bodyBytes, err := io.ReadAll(res.Body)
+	bodyBytes, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, fmt.Errorf("Error reading response body: %w", err)
 	}
 
-  objects := []string{}
+	objects := []string{}
 
-  err = json.Unmarshal(bodyBytes, &objects)
-  if err != nil {
-    return nil, fmt.Errorf("Error when deserialize response %w", err)
-  }
+	err = json.Unmarshal(bodyBytes, &objects)
+	if err != nil {
+		return nil, fmt.Errorf("Error when deserialize response %w", err)
+	}
 
-  return objects, nil
+	return objects, nil
 
 }
 
@@ -130,14 +130,14 @@ func (c *Client) DeleteObject(bucketName string, objectName string) (bool, error
 		c.url,
 		bucketName,
 		objectName,
-		)
+	)
 
 	req, err := http.NewRequest(http.MethodDelete, url, nil)
 	if err != nil {
 		return false, fmt.Errorf("Error trying to create the request: %w", err)
 	}
 
-  req.Header.Set("Authorization", c.token)
+	req.Header.Set("Authorization", c.token)
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
@@ -147,10 +147,10 @@ func (c *Client) DeleteObject(bucketName string, objectName string) (bool, error
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-    return false, fmt.Errorf("Failed trying to delete object (status: %d)", res.StatusCode)
+		return false, fmt.Errorf("Failed trying to delete object (status: %d)", res.StatusCode)
 	}
 
-  return true, nil
+	return true, nil
 
 }
 
@@ -165,14 +165,14 @@ func (c *Client) DownloadObject(bucketName string, objectName string) (io.Reader
 		c.url,
 		bucketName,
 		objectName,
-		)
+	)
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, fmt.Errorf("Error trying to create the request: %w", err)
 	}
 
-  req.Header.Set("Authorization", c.token)
+	req.Header.Set("Authorization", c.token)
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
@@ -182,15 +182,15 @@ func (c *Client) DownloadObject(bucketName string, objectName string) (io.Reader
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-    return nil, fmt.Errorf("Failed trying to download object (status: %d)", res.StatusCode)
+		return nil, fmt.Errorf("Failed trying to download object (status: %d)", res.StatusCode)
 	}
 
 	data, err := io.ReadAll(res.Body)
-  if err != nil {
-    return nil, fmt.Errorf("Failed to read response body: %w", err)
-  }
+	if err != nil {
+		return nil, fmt.Errorf("Failed to read response body: %w", err)
+	}
 
-  return bytes.NewReader(data), nil
+	return bytes.NewReader(data), nil
 }
 
 // ======================================

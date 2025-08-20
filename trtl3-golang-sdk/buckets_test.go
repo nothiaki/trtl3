@@ -9,16 +9,16 @@ import (
 )
 
 func TestCreateBucket_Success(t *testing.T) {
-  httpmock.Activate(t)
+	httpmock.Activate(t)
 
-  defer httpmock.DeactivateAndReset()
+	defer httpmock.DeactivateAndReset()
 
 	bucketName := "new-bucket"
 
-  httpmock.RegisterResponder(
-    http.MethodPost, fmt.Sprintf("%s/buckets", url),
-    authHandler(http.StatusCreated, ""),
-  )
+	httpmock.RegisterResponder(
+		http.MethodPost, fmt.Sprintf("%s/buckets", url),
+		authHandler(http.StatusCreated, ""),
+	)
 
 	c := Init(url, token)
 
@@ -34,16 +34,16 @@ func TestCreateBucket_Success(t *testing.T) {
 }
 
 func TestListBuckets_Success(t *testing.T) {
-  httpmock.Activate(t)
+	httpmock.Activate(t)
 
-  defer httpmock.DeactivateAndReset()
+	defer httpmock.DeactivateAndReset()
 
-  bucketName := "new-bucket"
+	bucketName := "new-bucket"
 
-  httpmock.RegisterResponder(
-    http.MethodGet, fmt.Sprintf("%s/buckets", url),
-    authHandler(http.StatusOK, fmt.Sprintf(`["%s"]`, bucketName)),
-  )
+	httpmock.RegisterResponder(
+		http.MethodGet, fmt.Sprintf("%s/buckets", url),
+		authHandler(http.StatusOK, fmt.Sprintf(`["%s"]`, bucketName)),
+	)
 
 	c := Init(url, token)
 

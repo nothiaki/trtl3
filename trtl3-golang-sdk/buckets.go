@@ -1,10 +1,10 @@
 package trtl3sdk
 
 import (
-  "io"
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -29,7 +29,7 @@ func (c *Client) CreateBucket(bucketName string) (bool, error) {
 
 	req.Header.Set("Content-Type", "application/json")
 
-  req.Header.Set("Authorization", c.token)
+	req.Header.Set("Authorization", c.token)
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
@@ -39,7 +39,7 @@ func (c *Client) CreateBucket(bucketName string) (bool, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusCreated {
-    return false, fmt.Errorf("Failed trying to create bucket(status: %d)", res.StatusCode)
+		return false, fmt.Errorf("Failed trying to create bucket(status: %d)", res.StatusCode)
 	}
 
 	return true, nil
@@ -58,7 +58,7 @@ func (c *Client) ListBuckets() ([]string, error) {
 		return nil, fmt.Errorf("Error trying to create the request: %w", err)
 	}
 
-  req.Header.Set("Authorization", c.token)
+	req.Header.Set("Authorization", c.token)
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
@@ -68,22 +68,22 @@ func (c *Client) ListBuckets() ([]string, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-    return nil, fmt.Errorf("Failed trying to find created buckets(status: %d)", res.StatusCode)
+		return nil, fmt.Errorf("Failed trying to find created buckets(status: %d)", res.StatusCode)
 	}
 
- 	bodyBytes, err := io.ReadAll(res.Body)
+	bodyBytes, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, fmt.Errorf("Error reading response body: %w", err)
 	}
 
-  buckets := []string{}
+	buckets := []string{}
 
-  err = json.Unmarshal(bodyBytes, &buckets)
-  if err != nil {
-    return nil, fmt.Errorf("Error when deserialize response %w", err)
-  }
+	err = json.Unmarshal(bodyBytes, &buckets)
+	if err != nil {
+		return nil, fmt.Errorf("Error when deserialize response %w", err)
+	}
 
-  return buckets, nil
+	return buckets, nil
 
 }
 
@@ -97,14 +97,14 @@ func (c *Client) DeleteBucket(bucketName string) (bool, error) {
 		"%s/buckets?bucket=%s",
 		c.url,
 		bucketName,
-		)
+	)
 
 	req, err := http.NewRequest(http.MethodDelete, url, nil)
 	if err != nil {
 		return false, fmt.Errorf("Error trying to create the request: %w", err)
 	}
 
-  req.Header.Set("Authorization", c.token)
+	req.Header.Set("Authorization", c.token)
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
@@ -114,10 +114,10 @@ func (c *Client) DeleteBucket(bucketName string) (bool, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-    return false, fmt.Errorf("Failed trying to delete bucket (status: %d)", res.StatusCode)
+		return false, fmt.Errorf("Failed trying to delete bucket (status: %d)", res.StatusCode)
 	}
 
-  return true, nil
+	return true, nil
 
 }
 

@@ -11,25 +11,25 @@ import (
 )
 
 func TestUploadObject_Success(t *testing.T) {
-  httpmock.Activate(t)
+	httpmock.Activate(t)
 
-  defer httpmock.DeactivateAndReset()
+	defer httpmock.DeactivateAndReset()
 
 	bucket := "new-bucket"
 	objectName := "file.png"
 
-  file := bytes.NewReader([]byte("file content"))
+	file := bytes.NewReader([]byte("file content"))
 
-  httpmock.RegisterResponder(
-    http.MethodPost,
-    fmt.Sprintf(
-      "%s/objects/upload?bucket=%s&object=%s",
-      url,
-      bucket,
-      objectName,
-      ),
-    authHandler(http.StatusCreated, ""),
-  )
+	httpmock.RegisterResponder(
+		http.MethodPost,
+		fmt.Sprintf(
+			"%s/objects/upload?bucket=%s&object=%s",
+			url,
+			bucket,
+			objectName,
+		),
+		authHandler(http.StatusCreated, ""),
+	)
 
 	c := Init(url, token)
 
@@ -45,9 +45,9 @@ func TestUploadObject_Success(t *testing.T) {
 }
 
 func TestUploadObjectByPath_Success(t *testing.T) {
-  httpmock.Activate(t)
+	httpmock.Activate(t)
 
-  defer httpmock.DeactivateAndReset()
+	defer httpmock.DeactivateAndReset()
 
 	bucket := "new-bucket"
 	objectName := "obj.png"
@@ -58,17 +58,16 @@ func TestUploadObjectByPath_Success(t *testing.T) {
 	}
 	defer os.Remove(file.Name())
 
-  httpmock.RegisterResponder(
-    http.MethodPost,
-    fmt.Sprintf(
-      "%s/objects/upload?bucket=%s&object=%s",
-      url,
-      bucket,
-      objectName,
-      ),
-    authHandler(http.StatusCreated, ""),
-  )
-
+	httpmock.RegisterResponder(
+		http.MethodPost,
+		fmt.Sprintf(
+			"%s/objects/upload?bucket=%s&object=%s",
+			url,
+			bucket,
+			objectName,
+		),
+		authHandler(http.StatusCreated, ""),
+	)
 
 	c := Init(url, token)
 
@@ -84,17 +83,17 @@ func TestUploadObjectByPath_Success(t *testing.T) {
 }
 
 func TestListObjects_Success(t *testing.T) {
-  httpmock.Activate(t)
+	httpmock.Activate(t)
 
-  defer httpmock.DeactivateAndReset()
+	defer httpmock.DeactivateAndReset()
 
-  bucket := "new-bucket"
+	bucket := "new-bucket"
 	object := "file.png"
 
-  httpmock.RegisterResponder(
-    http.MethodGet, fmt.Sprintf("%s/objects?bucket=%s", url, bucket),
-    authHandler(http.StatusOK, fmt.Sprintf(`["%s"]`, object)),
-  )
+	httpmock.RegisterResponder(
+		http.MethodGet, fmt.Sprintf("%s/objects?bucket=%s", url, bucket),
+		authHandler(http.StatusOK, fmt.Sprintf(`["%s"]`, object)),
+	)
 
 	c := Init(url, token)
 
