@@ -1,0 +1,29 @@
+name: Publish Trtl3 Core on Npm
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "trtl3-node-sdk/**"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Npm auth
+        run: npm set //registry.npmjs.org/:_authToken=${{ secrets.NPM_KEY }}
+
+      - name: Publish package
+        run: npm publish ./trtl3-node-sdk --access public
+
