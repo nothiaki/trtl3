@@ -1,4 +1,4 @@
-name: Publish Trtl3 Core on Npm
+name: Publish Trtl3 Node SDK on Npm
 
 on:
   push:
