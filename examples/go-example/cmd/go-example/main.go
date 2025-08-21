@@ -1,26 +1,23 @@
 package goexample
 
 import (
-  "net/http"
+	"fmt"
+	"os"
 
-	trtl3sdk "github.com/nothiaki/trtl3/trtl3-golang-sdk"
-  "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
+	"github.com/nothiaki/trtl3/examples/go-example/api/handler"
+	"github.com/nothiaki/trtl3/examples/go-example/internal/storage"
 )
 
 func main() {
-
-	trtl3 := trtl3sdk.Init(
-		"http://localhost:7713/",
-		"trtl3-token",
-	)
-
 	r := gin.Default()
 
-	r.GET("/cat", func(c *gin.Context) {
-    c.JSON(http.StatusOK, gin.H{
-      "message": "cat",
-    })
-  })
+	if err := storage.StorageInit(); err != nil {
+		fmt.Println("Error while init storage service")
+		os.Exit(1)
+	}
+
+	r.GET("/cat", handler.FindRandonCatImage)
 
   r.Run()
 
