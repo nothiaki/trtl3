@@ -1,0 +1,8 @@
+services:
+
+  trtl3-core:
+    image: nothiaki/trtl3-core:latest
+    ports:
+      - 7713:7713
+    environment:
+      - TOKEN=trtl3-token
