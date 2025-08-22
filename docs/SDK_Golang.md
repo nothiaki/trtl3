@@ -2,6 +2,8 @@
 
 Here you can find our Golang SDK (Software Development Kit) — a library designed to make integrating Trtl3 into your project simple and seamless.
 
+> Note: You can check an example project in using this SDK [here](https://github.com/nothiaki/trtl3/tree/main/examples/go-example)
+
 ## Initialize SDK Instance
 
 To start to use our Golang SDK you must run `go get	github.com/nothiaki/trtl3/trtl3-golang-sdk` in your project directory.
