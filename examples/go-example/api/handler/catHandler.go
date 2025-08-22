@@ -14,7 +14,7 @@ func FindRandonCatImage(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Sorry we got an error on our server, try again",
-    })
+		})
 	}
 
 	url := fmt.Sprintf("http://localhost:7713/public/%w", imgs[rand.Intn(2)])

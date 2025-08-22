@@ -19,6 +19,6 @@ func main() {
 
 	r.GET("/cat", handler.FindRandonCatImage)
 
-  r.Run()
+	r.Run()
 
 }

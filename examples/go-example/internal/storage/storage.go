@@ -3,7 +3,6 @@ package storage
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	trtl3sdk "github.com/nothiaki/trtl3/trtl3-golang-sdk"
 )
@@ -23,7 +22,7 @@ func StorageInit() error {
 
 	for i := range 3 {
 		res, err := http.Get("https://cataas.com/cat")
-    if err != nil {
+		if err != nil {
 			fmt.Println("Error fetching cat image:", err)
 			return err
 		}
@@ -43,10 +42,11 @@ func StorageInit() error {
 	return nil
 }
 
-func FindAllCatImage() ([]string, error){
+func FindAllCatImage() ([]string, error) {
 	images, err := trtl3.ListObjects("cats")
 	if err != nil {
-		fmt.Println("Error uploading image:", err)
+		fmt.Println("Error listing objects:", err)
+		return []string{}, err
 	}
 
 	return images, nil
