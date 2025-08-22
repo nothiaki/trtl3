@@ -1,4 +1,4 @@
-package goexample
+package main
 
 import (
 	"fmt"
@@ -17,7 +17,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	r.GET("/cat", handler.FindRandonCatImage)
+	r.GET("/cats", handler.FindRandonCatImage)
 
 	r.Run()
 

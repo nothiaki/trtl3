@@ -10,6 +10,8 @@ import (
 )
 
 func FindRandonCatImage(c *gin.Context) {
+	bucketName := "cats"
+
 	imgs, err := storage.FindAllCatImage()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -17,7 +19,7 @@ func FindRandonCatImage(c *gin.Context) {
 		})
 	}
 
-	url := fmt.Sprintf("http://localhost:7713/public/%w", imgs[rand.Intn(2)])
+	url := fmt.Sprintf("http://localhost:7713/public/%s/%s", bucketName, imgs[rand.Intn(2)])
 
 	c.JSON(http.StatusOK, gin.H{
 		"goto": url,

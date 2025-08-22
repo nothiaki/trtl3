@@ -3,6 +3,7 @@ package storage
 import (
 	"fmt"
 	"net/http"
+	"slices"
 
 	trtl3sdk "github.com/nothiaki/trtl3/trtl3-golang-sdk"
 )
@@ -11,11 +12,24 @@ var trtl3 *trtl3sdk.Client
 
 func StorageInit() error {
 	trtl3 = trtl3sdk.Init(
-		"http://localhost:7713/",
+		"http://localhost:7713",
 		"trtl3-token",
 	)
 
-	if _, err := trtl3.CreateBucket("cats"); err != nil {
+	bucketName := "cats"
+
+	buckets, err := trtl3.ListBuckets()
+	if err != nil {
+		fmt.Println("Error while creating bucket")
+		return err
+	}
+
+	if slices.Contains(buckets, bucketName) {
+		fmt.Println("Bucket already exists")
+		return nil
+	}
+
+	if _, err := trtl3.CreateBucket(bucketName); err != nil {
 		fmt.Println("Error while creating bucket")
 		return err
 	}
